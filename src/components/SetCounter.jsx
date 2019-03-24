@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import * as palette from '../constants/color-palette';
 
 const SetCounterContainer = styled.div`
     display: flex;
@@ -10,12 +11,12 @@ const SetCounterContainer = styled.div`
     border-radius: 50%;
     width: 100px;
     height: 100px;
-    background: lightgray;
+    background: ${palette.gray};
 `;
 
 function SetCounter(props) {
     return (
-        <SetCounterContainer>
+        <SetCounterContainer onClick={props.clickSetCount}>
             <span>{props.count}</span>
         </SetCounterContainer>
     )

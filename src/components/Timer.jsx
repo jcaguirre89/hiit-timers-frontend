@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import * as palette from '../constants/color-palette';
 
 const TimerContainer = styled.div`
     display: flex;
@@ -9,9 +10,9 @@ const TimerContainer = styled.div`
     width: 100%;
     min-height: 70vh;
     font-size: 3em;
-    color: black;
+    color: 'black';
     font-weight: bold;
-    background: ${props => props.timerIsWorkout ? 'green' : 'red'};
+    background: ${props => props.timerIsWorkout ? palette.green : palette.red};
 `;
 
 

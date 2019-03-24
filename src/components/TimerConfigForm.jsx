@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import * as palette from '../constants/color-palette';
 
 const FormContainer = styled.div`
     display: flex;
@@ -15,6 +16,10 @@ const ValueContainer = styled.span`
     font-size: 12px;
     padding: .4em .6em;
     border-radius: 3px;
+`;
+
+const Label = styled.label`
+    margin-bottom: 10px;
 `;
 
 const Slider = styled.input`
@@ -34,7 +39,7 @@ width: 80%;
 }
 
 &::-moz-range-track {
-    background-color: #d7dbdd;
+    background-color: ${palette.gray};
     height: 6px;
     border-radius: 3px;
     border: none;
@@ -48,12 +53,12 @@ width: 80%;
 }
 
 &::-ms-fill-lower { 
-    background-color: #d7dbdd;
+    background-color: ${palette.gray};
     border-radius: 3px;
 }
 
 &::-ms-fill-upper { 
-    background-color: #d7dbdd;
+    background-color: ${palette.gray};
     border-radius: 3px;
 }
 
@@ -67,18 +72,17 @@ width: 80%;
     height: 2em;
     width: 2em;
     border-radius: 50%;
-    background: gray;
+    background: ${palette.darkgray};
     margin-top: -4px;
 }
 
 &::-webkit-slider-thumb {
     -webkit-appearance: none !important;
     border-radius: 100%;
-    background-color: gray;
+    background-color: ${palette.darkgray};
     height: 2em;
     width: 2em;
-    margin-top: -7px;
-    outline: ${props => props.active ? 'none' : 'solid'}
+    margin-top: -11px;
 }
 
 
@@ -117,22 +121,21 @@ class TimerInput extends React.Component {
 };
 
 
-
 class ConfigForm extends React.Component {
 
     render() {
         return (
             <FormContainer>
-                    <label htmlFor='workoutTime'>Set workout time</label>
+                    <Label htmlFor='workoutTime'>Set workout time</Label>
                     <TimerInput
                         name='workoutTime'
                         time={this.props.workoutTime}
                         handleUpdate={this.props.updateTimer}
                         min="0"
-                        max="300"
+                        max="120"
                         />
                     <br />
-                    <label htmlFor='restTime'>Set rest time</label>
+                    <Label htmlFor='restTime'>Set rest time</Label>
                     <TimerInput
                         name='restTime'
                         time={this.props.restTime}

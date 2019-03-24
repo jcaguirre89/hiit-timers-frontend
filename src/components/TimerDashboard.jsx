@@ -25,9 +25,11 @@ class TimerDashboard extends React.Component {
     }
 
     resetSetCount = () => {
-        this.setState({
-            setCount: 0,
-        });
+        if (window.confirm('Reset set count?')) {
+            this.setState({
+                setCount: 0,
+            });
+        };
     };
 
     mountTimer = () => {
@@ -120,6 +122,7 @@ class TimerDashboard extends React.Component {
                     }
                     <SetCounter
                         count={this.state.setCount}
+                        clickSetCount={this.resetSetCount}
                     />
                     <br />
                 </div>
