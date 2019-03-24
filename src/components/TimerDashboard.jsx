@@ -30,6 +30,7 @@ class TimerDashboard extends React.Component {
                 setCount: 0,
             });
         };
+        this.mountTimer();
     };
 
     mountTimer = () => {

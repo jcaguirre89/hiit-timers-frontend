@@ -7,7 +7,7 @@ const SetCounterContainer = styled.div`
     align-items: center;
     justify-content: center;
     font-size: 1em;
-    color: gray;
+    color: ${palette.darkgray};
     border-radius: 50%;
     width: 100px;
     height: 100px;
