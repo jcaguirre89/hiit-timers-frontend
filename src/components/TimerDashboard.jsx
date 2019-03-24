@@ -9,6 +9,7 @@ import SetCounter from './SetCounter';
 import Timer from './Timer';
 import StopButton from './/StopButton';
 import StartButton from './StartButton';
+import MainContainer from './MainContainer';
 
 class TimerDashboard extends React.Component {
     state = {
@@ -107,32 +108,35 @@ class TimerDashboard extends React.Component {
         this.mountTimer();
     };
 
+
     render() {
+        const totalTime = this.state.timerIsWorkout ? 
+            this.state.workoutTime : 
+            this.state.restTime;
         return (
-            <div className='main-wrapper'>
+            <MainContainer timerIsWorkout={this.state.timerIsWorkout}>
+                <Timer
+                    timerIsRunning={this.state.timerIsRunning}
+                    timerIsWorkout={this.state.timerIsWorkout}
+                    timeRemaining={this.state.timeRemaining}
+                    totalTime={totalTime}
+                />
+                <div className="button-and-counter-container">
+                    {this.state.timerIsRunning ? 
+                    <StopButton onClick={this.handleStartStop}><MdPause /></StopButton> : 
+                    <StartButton onClick={this.handleStartStop}><MdPlayArrow /></StartButton>
+                }
+                    <SetCounter
+                        count={this.state.setCount}
+                        clickSetCount={this.resetSetCount}
+                    />
+                </div>
                 <TimerConfigForm
                     workoutTime={this.state.workoutTime}
                     restTime={this.state.restTime}
                     updateTimer={this.updateTimer}
                 />
-                <br />
-                <div className="button-and-counter-container">
-                    {this.state.timerIsRunning ? 
-                    <StopButton onClick={this.handleStartStop}><MdPause /></StopButton> : 
-                    <StartButton onClick={this.handleStartStop}><MdPlayArrow /></StartButton>
-                    }
-                    <SetCounter
-                        count={this.state.setCount}
-                        clickSetCount={this.resetSetCount}
-                    />
-                    <br />
-                </div>
-                <Timer
-                    timerIsRunning={this.state.timerIsRunning}
-                    timerIsWorkout={this.state.timerIsWorkout}
-                    timeRemaining={this.state.timeRemaining}
-                />
-            </div>
+            </MainContainer>
         )
     };
 };

@@ -8,13 +8,11 @@ const TimerContainer = styled.div`
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-height: 70vh;
-    font-size: 3em;
-    color: 'black';
+    min-height: 50vh;
+    font-size: 4em;
+    color: white;
     font-weight: bold;
-    background: ${props => props.timerIsWorkout ? palette.green : palette.red};
 `;
-
 
 function Timer(props) {
     

@@ -6,9 +6,9 @@ const StartButton = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
-    background: ${palette.green};
+    background: ${palette.blue};
     border-radius: 50%;
-    border: 1px solid ${palette.green};
+    border: 1px solid ${palette.blue};
     width: 100px;
     height: 100px;
     color: white;

@@ -11,15 +11,17 @@ const FormContainer = styled.div`
 `;
 
 const ValueContainer = styled.span`
-    border: 1px solid #2b3039;
-    color: #aaa;
-    font-size: 12px;
+    border: 1px solid white;
+    color: white;
+    font-size: 2em;
     padding: .4em .6em;
     border-radius: 3px;
 `;
 
 const Label = styled.label`
     margin-bottom: 10px;
+    color: white;
+    font-size: 2em;
 `;
 
 const Slider = styled.input`
