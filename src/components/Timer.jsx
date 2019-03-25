@@ -8,7 +8,7 @@ const TimerContainer = styled.div`
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-height: 50vh;
+    height: 45%;
     font-size: 4em;
     color: white;
     font-weight: bold;

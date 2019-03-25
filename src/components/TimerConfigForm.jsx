@@ -8,6 +8,7 @@ const FormContainer = styled.div`
     width: 100%;
     font-size: 0.3em;
     color: black;
+    margin-left: 200px;
 `;
 
 const ValueContainer = styled.span`
@@ -31,7 +32,7 @@ outline: none;
 border: none;
 padding: 0;
 background: none;
-width: 80%;
+width: 70%;
 
 &::-webkit-slider-runnable-track {
     background-color: #d7dbdd;
