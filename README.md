@@ -1,7 +1,7 @@
 # HIIT Timers
 A small web app (optimized for mobile) that shows a countdown with customizable workout and rest times. 
 
-Currently deployed in a [Heroku free dyno](hiit-timers.herokuapp.com)
+Currently deployed in a [Heroku free dyno](https://hiit-timers.herokuapp.com)
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
