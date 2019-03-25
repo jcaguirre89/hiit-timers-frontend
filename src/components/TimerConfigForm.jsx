@@ -8,7 +8,7 @@ const FormContainer = styled.div`
     width: 100%;
     font-size: 0.3em;
     color: black;
-    margin-left: 200px;
+    margin-left: 50px;
 `;
 
 const ValueContainer = styled.span`
