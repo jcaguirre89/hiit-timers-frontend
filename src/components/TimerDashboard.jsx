@@ -1,14 +1,10 @@
 import React from 'react';
 
-import styled from 'styled-components';
-import { MdPlayArrow, MdPause } from 'react-icons/md';
-
-
+import * as palette from '../constants/color-palette'
 import TimerConfigForm from './TimerConfigForm';
 import SetCounter from './SetCounter';
 import Timer from './Timer';
-import StopButton from './/StopButton';
-import StartButton from './StartButton';
+import RoundButton from './Buttons';
 import MainContainer from './MainContainer';
 
 class TimerDashboard extends React.Component {
@@ -123,8 +119,8 @@ class TimerDashboard extends React.Component {
                 />
                 <div className="button-and-counter-container">
                     {this.state.timerIsRunning ? 
-                    <StopButton onClick={this.handleStartStop}><MdPause /></StopButton> : 
-                    <StartButton onClick={this.handleStartStop}><MdPlayArrow /></StartButton>
+                    <RoundButton onClick={this.handleStartStop} background={palette.blue}><span className="fas fa-pause" /></RoundButton> : 
+                    <RoundButton onClick={this.handleStartStop} background={palette.blue}><span className="fas fa-play" /></RoundButton> 
                 }
                     <SetCounter
                         count={this.state.setCount}
