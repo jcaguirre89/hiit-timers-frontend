@@ -5,21 +5,13 @@ import * as palette from '../constants/color-palette';
 const FormContainer = styled.div`
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 80%;
+    max-width: 400px;
     font-size: 0.3em;
     color: black;
-    margin-left: 50px;
 `;
 
-const ValueContainer = styled.span`
-    border: 1px solid white;
-    color: white;
-    font-size: 2em;
-    padding: .4em .6em;
-    border-radius: 3px;
-`;
-
-const Label = styled.label`
+const Label = styled.span`
     margin-bottom: 10px;
     color: white;
     font-size: 2em;
@@ -31,6 +23,8 @@ vertical-align: middle;
 outline: none;
 border: none;
 padding: 0;
+margin-top: 20px;
+margin-bottom: 20px;
 background: none;
 width: 70%;
 
@@ -94,7 +88,7 @@ width: 70%;
 class TimerInput extends React.Component {
 
     state = {
-        time: null 
+        time: 10, 
     }
 
     componentDidMount = () => {
@@ -114,11 +108,8 @@ class TimerInput extends React.Component {
 
     render() {
         return (
-            <div>
-                <Slider type='range' name={this.props.name} min={this.props.min} max={this.props.max}
-                    value={this.state.time} onChange={this.handleUpdate} />
-                <ValueContainer>{this.state.time}</ValueContainer>
-             </div>
+            <Slider type='range' name={this.props.name} min={this.props.min} max={this.props.max}
+                value={this.state.time} onChange={this.handleUpdate} />
         )
     };
 };
@@ -126,26 +117,51 @@ class TimerInput extends React.Component {
 
 class ConfigForm extends React.Component {
 
+    state = {
+        renderWorkout: false,
+        renderRest: false,
+    }
+
+    handleWorkoutClick = () => {
+        this.setState({
+            renderWorkout: !this.state.renderWorkout,
+        })
+    }
+
+    handleRestClick = () => {
+        this.setState({
+            renderRest: !this.state.renderRest,
+        })
+    }
+
     render() {
         return (
             <FormContainer>
-                    <Label htmlFor='workoutTime'>Set workout time</Label>
-                    <TimerInput
-                        name='workoutTime'
-                        time={this.props.workoutTime}
-                        handleUpdate={this.props.updateTimer}
-                        min="0"
-                        max="120"
-                        />
+                    <Label onClick={this.handleWorkoutClick}>
+                        Workout time: {this.props.workoutTime} seconds
+                    </Label>
+                    {this.state.renderWorkout ? 
+                        <TimerInput
+                            name='workoutTime'
+                            time={this.props.workoutTime}
+                            handleUpdate={this.props.updateTimer}
+                            min="0"
+                            max="120"
+                            /> :
+                            null}
                     <br />
-                    <Label htmlFor='restTime'>Set rest time</Label>
-                    <TimerInput
-                        name='restTime'
-                        time={this.props.restTime}
-                        handleUpdate={this.props.updateTimer}
-                        min="0"
-                        max="60"
-                        />
+                    <Label onClick={this.handleRestClick}>
+                    Rest time: {this.props.restTime} seconds
+                        </Label>
+                    {this.state.renderRest ? 
+                        <TimerInput
+                            name='restTime'
+                            time={this.props.restTime}
+                            handleUpdate={this.props.updateTimer}
+                            min="0"
+                            max="60"
+                            /> :
+                            null}
             </FormContainer>
         )
     };

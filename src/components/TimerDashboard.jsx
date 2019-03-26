@@ -9,8 +9,8 @@ import MainContainer from './MainContainer';
 
 class TimerDashboard extends React.Component {
     state = {
-        workoutTime: 5,
-        restTime: 2,
+        workoutTime: 50,
+        restTime: 10,
         timerIsRunning: false,
         timerIsWorkout: true,
         timeRemaining: null,
@@ -18,8 +18,12 @@ class TimerDashboard extends React.Component {
     }
 
     componentDidMount = () => {
-        this.mountTimer();
-    }
+        this.resetTimer();
+    };
+
+    componentWillUnmount = () => {
+        this.stopTimer();
+    };
 
     resetSetCount = () => {
         if (window.confirm('Reset set count?')) {
@@ -27,22 +31,12 @@ class TimerDashboard extends React.Component {
                 setCount: 0,
             });
         };
-        this.mountTimer();
-    };
-
-    mountTimer = () => {
-        const timeRemaining = this.state.timerIsWorkout ?
-            this.state.workoutTime :
-            this.state.restTime;
-        
-        this.setState({
-            timeRemaining
-        });
+        this.stopTimer();
+        this.resetTimer();
     };
 
     handleStartStop = () => {
         const nextState = !this.state.timerIsRunning;
-        //If nextState is true, timer is now running
         nextState ? this.startTimer() : this.stopTimer();
     }
 
@@ -61,7 +55,7 @@ class TimerDashboard extends React.Component {
         this.setState({
             timerIsRunning: false,
         });
-    }
+    };
 
     tick = () => {
         const seconds = this.state.timeRemaining - 1
@@ -73,35 +67,54 @@ class TimerDashboard extends React.Component {
 
     checkTimer = () => {
         if (this.state.timeRemaining <= 0) {
-            this.resetTimer();
-        }
+            this.nextPhase();
+        };
+    };
+
+    nextPhase = () => {
+        // Called whenever the timer reaches 0. 
+        if (this.state.timerIsWorkout) {
+            this.workoutToRest();
+        } else {
+            this.restToWorkout();
+        };
+    };
+
+    workoutToRest = () => {
+        this.setState({
+            timerIsWorkout: false,
+            timeRemaining: this.state.restTime,
+        });
+    };
+
+    restToWorkout = () => {
+        this.setState({
+            timerIsWorkout: true,
+            setCount: this.state.setCount + 1,
+            timeRemaining: this.state.workoutTime,
+        });
     };
 
     resetTimer = () => {
-        const nextState = !this.state.timerIsWorkout;
-        //if nextState is false, timer switched to rest
-        const newSetCount = nextState ? 
-            this.state.setCount + 1 :
-            this.state.setCount
-
-        const timeRemaining = nextState ?
+        //Reset the timer to the start of the workout phase
+        const timeRemaining = this.state.timerIsWorkout ?
         this.state.workoutTime :
         this.state.restTime;
 
         this.setState({
-            timerIsWorkout: nextState,
-            setCount: newSetCount,
             timeRemaining: timeRemaining,
-        })
+            timerIsWorkout: true,
+        });
     };
 
     updateTimer = (timer, time) => {
+        // Called when a slider is moved to update the time in a given timer
         this.stopTimer();
         this.setState({
             [timer]: time,
             timerIsRunning: false,
         });
-        this.mountTimer();
+        this.resetTimer();
     };
 
 
