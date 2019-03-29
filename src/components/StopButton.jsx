@@ -14,6 +14,10 @@ const StopButton = styled.button`
     color: white;
     font-size: 1.5em;
     margin-right: 10px;
+
+    :hover {
+        cursor: pointer;
+    }
 `;
 
 export default StopButton;

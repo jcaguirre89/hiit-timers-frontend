@@ -15,6 +15,8 @@ const Label = styled.span`
     margin-bottom: 10px;
     color: white;
     font-size: 2em;
+
+    
 `;
 
 const Slider = styled.input`

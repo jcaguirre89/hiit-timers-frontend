@@ -12,6 +12,10 @@ const SetCounterContainer = styled.div`
     width: 100px;
     height: 100px;
     background: ${palette.gray};
+
+    :hover {
+        cursor: pointer;
+    }
 `;
 
 function SetCounter(props) {
