@@ -1,7 +1,9 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/c27a74c3-c9a8-4292-a3a1-dc3a12e7f71a/deploy-status)](https://app.netlify.com/sites/hiit-timer/deploys)
+
 # HIIT Timers
 A small web app (optimized for mobile) that shows a countdown with customizable workout and rest times. 
 
-Currently deployed in a [Heroku free dyno](https://hiit-timers.herokuapp.com)
+Currently deployed in a [Netlify free site](https://hiit-timer.netlify.com)
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
