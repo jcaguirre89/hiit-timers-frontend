@@ -1,155 +1,160 @@
-import React from 'react';
+import React from "react";
 
-import * as palette from '../constants/color-palette'
-import TimerConfigForm from './TimerConfigForm';
-import SetCounter from './SetCounter';
-import Timer from './Timer';
-import RoundButton from './Buttons';
-import MainContainer from './MainContainer';
+import * as palette from "../constants/color-palette";
+import TimerConfigForm from "./TimerConfigForm";
+import SetCounter from "./SetCounter";
+import Timer from "./Timer";
+import RoundButton from "./Buttons";
+import MainContainer from "./MainContainer";
 
 class TimerDashboard extends React.Component {
-    state = {
-        workoutTime: 50,
-        restTime: 10,
-        timerIsRunning: false,
-        timerIsWorkout: true,
-        timeRemaining: null,
-        setCount: 0,
+  state = {
+    workoutTime: 50,
+    restTime: 10,
+    timerIsRunning: false,
+    timerIsWorkout: true,
+    timeRemaining: null,
+    setCount: 0
+  };
+
+  componentDidMount = () => {
+    this.resetTimer();
+  };
+
+  componentWillUnmount = () => {
+    this.stopTimer();
+  };
+
+  resetSetCount = () => {
+    if (window.confirm("Reset set count?")) {
+      this.setState({
+        setCount: 0
+      });
     }
+    this.stopTimer();
+    this.resetTimer();
+  };
 
-    componentDidMount = () => {
-        this.resetTimer();
-    };
+  handleStartStop = () => {
+    const nextState = !this.state.timerIsRunning;
+    nextState ? this.startTimer() : this.stopTimer();
+  };
 
-    componentWillUnmount = () => {
-        this.stopTimer();
-    };
+  startTimer = () => {
+    this.timerID = setInterval(() => this.tick(), 1000);
+    this.setState({
+      timerIsRunning: true
+    });
+  };
 
-    resetSetCount = () => {
-        if (window.confirm('Reset set count?')) {
-            this.setState({
-                setCount: 0,
-            });
-        };
-        this.stopTimer();
-        this.resetTimer();
-    };
+  stopTimer = () => {
+    clearInterval(this.timerID);
+    this.setState({
+      timerIsRunning: false
+    });
+  };
 
-    handleStartStop = () => {
-        const nextState = !this.state.timerIsRunning;
-        nextState ? this.startTimer() : this.stopTimer();
+  tick = () => {
+    const seconds = this.state.timeRemaining - 1;
+    this.setState({
+      timeRemaining: seconds
+    });
+    this.checkTimer();
+  };
+
+  checkTimer = () => {
+    if (this.state.timeRemaining <= 0) {
+      this.nextPhase();
     }
+  };
 
-    startTimer = () => {
-        this.timerID = setInterval(
-            () => this.tick(),
-            1000
-        );
-        this.setState({
-            timerIsRunning: true,
-        });
-    };
+  nextPhase = () => {
+    // Called whenever the timer reaches 0.
+    if (this.state.timerIsWorkout) {
+      this.workoutToRest();
+    } else {
+      this.restToWorkout();
+    }
+  };
 
-    stopTimer = () => {
-        clearInterval(this.timerID);
-        this.setState({
-            timerIsRunning: false,
-        });
-    };
+  workoutToRest = () => {
+    this.setState({
+      timerIsWorkout: false,
+      timeRemaining: this.state.restTime
+    });
+  };
 
-    tick = () => {
-        const seconds = this.state.timeRemaining - 1
-        this.setState({
-            timeRemaining: seconds
-        });
-        this.checkTimer();
-    };
+  restToWorkout = () => {
+    this.setState({
+      timerIsWorkout: true,
+      setCount: this.state.setCount + 1,
+      timeRemaining: this.state.workoutTime
+    });
+  };
 
-    checkTimer = () => {
-        if (this.state.timeRemaining <= 0) {
-            this.nextPhase();
-        };
-    };
+  resetTimer = () => {
+    //Reset the timer to the start of the workout phase
+    const timeRemaining = this.state.timerIsWorkout
+      ? this.state.workoutTime
+      : this.state.restTime;
 
-    nextPhase = () => {
-        // Called whenever the timer reaches 0. 
-        if (this.state.timerIsWorkout) {
-            this.workoutToRest();
-        } else {
-            this.restToWorkout();
-        };
-    };
+    this.setState({
+      timeRemaining: timeRemaining,
+      timerIsWorkout: true
+    });
+  };
 
-    workoutToRest = () => {
-        this.setState({
-            timerIsWorkout: false,
-            timeRemaining: this.state.restTime,
-        });
-    };
+  updateTimer = (timer, time) => {
+    // Called when a slider is moved to update the time in a given timer
+    this.stopTimer();
+    this.setState({
+      [timer]: time,
+      timerIsRunning: false
+    });
+    this.resetTimer();
+  };
 
-    restToWorkout = () => {
-        this.setState({
-            timerIsWorkout: true,
-            setCount: this.state.setCount + 1,
-            timeRemaining: this.state.workoutTime,
-        });
-    };
-
-    resetTimer = () => {
-        //Reset the timer to the start of the workout phase
-        const timeRemaining = this.state.timerIsWorkout ?
-        this.state.workoutTime :
-        this.state.restTime;
-
-        this.setState({
-            timeRemaining: timeRemaining,
-            timerIsWorkout: true,
-        });
-    };
-
-    updateTimer = (timer, time) => {
-        // Called when a slider is moved to update the time in a given timer
-        this.stopTimer();
-        this.setState({
-            [timer]: time,
-            timerIsRunning: false,
-        });
-        this.resetTimer();
-    };
-
-
-    render() {
-        const totalTime = this.state.timerIsWorkout ? 
-            this.state.workoutTime : 
-            this.state.restTime;
-        return (
-            <MainContainer timerIsWorkout={this.state.timerIsWorkout}>
-                <Timer
-                    timerIsRunning={this.state.timerIsRunning}
-                    timerIsWorkout={this.state.timerIsWorkout}
-                    timeRemaining={this.state.timeRemaining}
-                    totalTime={totalTime}
-                />
-                <div className="button-and-counter-container">
-                    {this.state.timerIsRunning ? 
-                    <RoundButton onClick={this.handleStartStop} background={palette.blue}><span className="fas fa-pause" /></RoundButton> : 
-                    <RoundButton onClick={this.handleStartStop} background={palette.blue}><span className="fas fa-play" /></RoundButton> 
-                }
-                    <SetCounter
-                        count={this.state.setCount}
-                        clickSetCount={this.resetSetCount}
-                    />
-                </div>
-                <TimerConfigForm
-                    workoutTime={this.state.workoutTime}
-                    restTime={this.state.restTime}
-                    updateTimer={this.updateTimer}
-                />
-            </MainContainer>
-        )
-    };
-};
-
-
+  render() {
+    const totalTime = this.state.timerIsWorkout
+      ? this.state.workoutTime
+      : this.state.restTime;
+    return (
+      <MainContainer timerIsWorkout={this.state.timerIsWorkout}>
+        <Timer
+          timerIsRunning={this.state.timerIsRunning}
+          timerIsWorkout={this.state.timerIsWorkout}
+          timeRemaining={this.state.timeRemaining}
+          totalTime={totalTime}
+        />
+        <div className="button-and-counter-container">
+          {this.state.timerIsRunning ? (
+            <RoundButton
+              onClick={this.handleStartStop}
+              background={palette.blue}
+            >
+              <span className="fas fa-pause" />
+            </RoundButton>
+          ) : (
+            <RoundButton
+              onClick={this.handleStartStop}
+              background={palette.blue}
+            >
+              <span className="fas fa-play" />
+            </RoundButton>
+          )}
+          <SetCounter
+            count={this.state.setCount}
+            clickSetCount={this.resetSetCount}
+          />
+        </div>
+        <TimerConfigForm
+          workoutTime={this.state.workoutTime}
+          restTime={this.state.restTime}
+          updateTimer={this.updateTimer}
+        />
+      </MainContainer>
+    );
+  }
+}
 
 export default TimerDashboard;
