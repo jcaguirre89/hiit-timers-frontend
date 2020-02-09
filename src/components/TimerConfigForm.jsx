@@ -148,7 +148,7 @@ class ConfigForm extends React.Component {
                             time={this.props.workoutTime}
                             handleUpdate={this.props.updateTimer}
                             min="0"
-                            max="120"
+                            max="180"
                             /> :
                             null}
                     <br />
